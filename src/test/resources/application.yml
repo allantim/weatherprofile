@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+logging:
+  level:
+    root: ERROR
+    org.apache.http: WARN
+    org.testcontainers: INFO
+    com.github.dockerjava: WARN

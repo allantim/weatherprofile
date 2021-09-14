@@ -1,0 +1,12 @@
+version: '2.4'
+
+services:
+  mysql_db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: weatheruser
+      MYSQL_PASSWORD: ABC
+      MYSQL_DATABASE: weathertracker
+    ports:
+      - "13306:3306"
