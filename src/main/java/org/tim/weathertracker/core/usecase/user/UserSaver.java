@@ -1,4 +1,4 @@
-package org.tim.weathertracker.core.usecase;
+package org.tim.weathertracker.core.usecase.user;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;

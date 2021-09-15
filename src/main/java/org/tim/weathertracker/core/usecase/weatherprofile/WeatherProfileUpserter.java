@@ -1,4 +1,4 @@
-package org.tim.weathertracker.core.usecase;
+package org.tim.weathertracker.core.usecase.weatherprofile;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;

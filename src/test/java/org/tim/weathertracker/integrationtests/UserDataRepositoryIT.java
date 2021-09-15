@@ -18,7 +18,7 @@ import org.tim.weathertracker.core.entities.UserProfile;
 import org.tim.weathertracker.core.repository.CityWeatherRepository;
 import org.tim.weathertracker.core.repository.UserDataRepository;
 import org.tim.weathertracker.core.repository.UserProfileRepository;
-import org.tim.weathertracker.core.usecase.ScheduledWeatherRetriever;
+import org.tim.weathertracker.core.usecase.cityscheduler.ScheduledWeatherRetriever;
 
 import java.util.List;
 import java.util.Set;

@@ -14,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import org.tim.weathertracker.core.entities.CityWeather;
 import org.tim.weathertracker.core.repository.CityWeatherRepository;
-import org.tim.weathertracker.core.usecase.ScheduledWeatherRetriever;
+import org.tim.weathertracker.core.usecase.cityscheduler.ScheduledWeatherRetriever;
 
 import java.util.List;
 import java.util.Optional;

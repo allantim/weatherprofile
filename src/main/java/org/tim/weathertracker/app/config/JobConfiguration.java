@@ -8,7 +8,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.config.TriggerTask;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.tim.weathertracker.core.AppProperties;
-import org.tim.weathertracker.core.usecase.ScheduledWeatherRetriever;
+import org.tim.weathertracker.core.usecase.cityscheduler.ScheduledWeatherRetriever;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 

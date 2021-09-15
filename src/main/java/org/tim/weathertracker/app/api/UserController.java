@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tim.weathertracker.core.entities.UserData;
-import org.tim.weathertracker.core.usecase.UserSaver;
+import org.tim.weathertracker.core.usecase.user.UserSaver;
 
 import java.util.Map;
 import java.util.UUID;

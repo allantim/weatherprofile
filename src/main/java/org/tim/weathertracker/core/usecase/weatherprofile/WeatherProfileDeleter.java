@@ -1,4 +1,4 @@
-package org.tim.weathertracker.core.usecase;
+package org.tim.weathertracker.core.usecase.weatherprofile;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

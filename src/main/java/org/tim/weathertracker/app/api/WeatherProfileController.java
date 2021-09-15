@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.tim.weathertracker.core.entities.UserProfile;
 import org.tim.weathertracker.core.entities.dto.WeatherProfileRequestDto;
 import org.tim.weathertracker.core.entities.dto.GeneralResponseDto;
-import org.tim.weathertracker.core.usecase.WeatherProfileDeleter;
-import org.tim.weathertracker.core.usecase.WeatherProfileRetriever;
-import org.tim.weathertracker.core.usecase.WeatherProfileUpserter;
+import org.tim.weathertracker.core.usecase.weatherprofile.WeatherProfileDeleter;
+import org.tim.weathertracker.core.usecase.weatherprofile.WeatherProfileRetriever;
+import org.tim.weathertracker.core.usecase.weatherprofile.WeatherProfileUpserter;
 
 import java.util.Set;
 import java.util.UUID;
