@@ -15,6 +15,8 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 public class AppProperties {
-    private Duration retrieveWaitDuration;
+    private int retrieveInterval;
     private Set<String> supportedCities;
+    private String openWeatherApiKey;
+    private String openWeatherUrl;
 }

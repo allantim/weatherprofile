@@ -12,4 +12,6 @@ logging:
 
 app:
   supported-cities: SYDNEY,BRISBANE,ADELAIDE,CANBERRA,PERTH,DARWIN
-  retrieve-wait-duration: PT15M
+  retrieve-interval: 900
+  open-weather-api-key: abcvssss
+  open-weather-url: https://aaa.com/wevver

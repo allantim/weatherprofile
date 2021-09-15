@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
@@ -17,6 +18,7 @@ import org.tim.weathertracker.core.entities.UserProfile;
 import org.tim.weathertracker.core.repository.CityWeatherRepository;
 import org.tim.weathertracker.core.repository.UserDataRepository;
 import org.tim.weathertracker.core.repository.UserProfileRepository;
+import org.tim.weathertracker.core.usecase.ScheduledWeatherRetriever;
 
 import java.util.List;
 import java.util.Set;
@@ -53,6 +55,9 @@ class UserDataRepositoryIT {
 
     @Autowired
     private CityWeatherRepository cityWeatherRepository;
+
+    @MockBean
+    private ScheduledWeatherRetriever scheduledWeatherRetriever;
 
     @BeforeEach
     void setUp() {

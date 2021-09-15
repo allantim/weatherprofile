@@ -14,4 +14,6 @@ logging:
 
 app:
   supported-cities: ${SUPPORTED_CITIES:SYDNEY,BRISBANE,ADELAIDE,CANBERRA,PERTH,DARWIN}
-  retrieve-wait-duration: ${TIME_BETWEEN_RETRIEVES:PT15M}
+  retrieve-interval: ${RETRIEVE_INTERVAL:900}
+  open-weather-api-key: ${OPEN_WEATHER_API_KEY}
+  open-weather-url: ${OPEN_WEATHER_API_URL}
