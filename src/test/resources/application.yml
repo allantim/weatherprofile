@@ -8,3 +8,8 @@ logging:
     org.apache.http: WARN
     org.testcontainers: INFO
     com.github.dockerjava: WARN
+
+
+app:
+  supported-cities: SYDNEY,BRISBANE,ADELAIDE,CANBERRA,PERTH,DARWIN
+  retrieve-wait-duration: PT15M

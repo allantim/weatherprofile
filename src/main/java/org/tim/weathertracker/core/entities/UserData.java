@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.CascadeType;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"userId"})
+@ToString(exclude = "userProfiles")
 public class UserData {
 
     @Id
@@ -40,4 +42,13 @@ public class UserData {
 
     @OneToMany(mappedBy="userData", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<UserProfile> userProfiles;
+
+    public void addUserProfile(UserProfile userProfile) {
+        this.userProfiles.add(userProfile);
+        userProfile.setUserData(this);
+    }
+
+    public void dismissUserProfileChild(UserProfile userProfile) {
+        this.userProfiles.remove(userProfile);
+    }
 }

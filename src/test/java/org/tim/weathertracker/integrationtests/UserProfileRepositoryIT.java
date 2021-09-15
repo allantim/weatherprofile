@@ -2,6 +2,7 @@ package org.tim.weathertracker.integrationtests;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,17 +19,17 @@ import org.tim.weathertracker.core.repository.CityWeatherRepository;
 import org.tim.weathertracker.core.repository.UserDataRepository;
 import org.tim.weathertracker.core.repository.UserProfileRepository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Testcontainers
 @Slf4j
-class UserDataRepositoryIT {
+class UserProfileRepositoryIT {
 
     @Container
     static MySQLContainer<?> dbContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0"))
@@ -46,21 +47,17 @@ class UserDataRepositoryIT {
     }
 
     @Autowired
-    private UserDataRepository userDataRepository;
-
-    @Autowired
-    private UserProfileRepository userProfileRepository;
+    private UserProfileRepository testee;
 
     @Autowired
     private CityWeatherRepository cityWeatherRepository;
 
+    @Autowired
+    private UserDataRepository userDataRepository;
+
     @BeforeEach
     void setUp() {
-
-        userProfileRepository.deleteAll();
-
-        userDataRepository.deleteAll();
-
+        testee.deleteAll();
         cityWeatherRepository.deleteAll();
 
         CityWeather cityWeather1 = CityWeather.builder()
@@ -102,76 +99,49 @@ class UserDataRepositoryIT {
 
         cityWeatherRepository.saveAll(
             List.of(
-               cityWeather1, cityWeather2, cityWeather3
+                cityWeather1, cityWeather2, cityWeather3
             )
         );
-
-
 
         UserData userData1 = UserData.builder()
             .name("dave")
             .userId(UUID.fromString("0970eba6-77be-4288-85b3-7db29f61897e"))
             .email("d@d.com")
             .build();
-
-        userData1.setUserProfiles(
-            Set.of(
+        userData1.setUserProfiles(new HashSet<>());
+        userData1.addUserProfile(
                 UserProfile.builder()
-                    .nickname("HolidayList")
-                    .userData(userData1)
-                    .cityWeathers(Set.of(cityWeather1, cityWeather2))
-                    .build(),
-				UserProfile.builder()
-					.nickname("OtherList")
-					.userData(userData1)
-                    .cityWeathers(Set.of(cityWeather2, cityWeather3))
-					.build()
-            )
-        );
+                .nickname("HolidayList")
+                .userData(userData1)
+                .cityWeathers(Set.of(cityWeather1, cityWeather2))
+                .build());
 
-        userDataRepository.saveAll(
-            List.of(
-				userData1,
-                UserData.builder()
-                    .name("rick")
-                    .userId(UUID.fromString("784a84c6-d4ba-4ae1-a014-f6d1d4825af7"))
-                    .email("rick@d.com")
-                    .build()
-            )
-        );
+        userData1.addUserProfile(
+            UserProfile.builder()
+                .nickname("OtherList")
+                .userData(userData1)
+                .cityWeathers(Set.of(cityWeather2, cityWeather3))
+                .build());
 
-
+        userDataRepository.save(userData1);
     }
 
+    @Disabled
     @Test
-    void retrieveAll() {
-        List<UserData> result = userDataRepository.findAll();
+    void retrieveAllThenDelete() {
+        List<UserProfile> result = testee.findAll();
         assertThat(result).hasSize(2);
-        assertThat(result.stream().map(UserData::getName).collect(Collectors.toSet())).containsExactlyInAnyOrder("dave", "rick");
 
-        UserData daveData = result.stream().filter(x->x.getName().equals("dave")).findFirst().get();
-        assertThat(daveData.getUserProfiles()).hasSize(2);
+        UserProfile aProfile = result.get(0);
+        Long anId = aProfile.getId();
 
-        UserProfile daveProfile1 = daveData.getUserProfiles().stream().filter(x->x.getNickname().equals("HolidayList")).findFirst().get();
-        assertThat(daveProfile1.getCityWeathers().stream().map(x->x.getName()).collect(Collectors.toSet()))
-            .containsExactlyInAnyOrder("SYDNEY", "BRISBANE");
+        aProfile.dismissUserData();
 
-        UserProfile daveProfile2 = daveData.getUserProfiles().stream().filter(x->x.getNickname().equals("OtherList")).findFirst().get();
-        assertThat(daveProfile2.getCityWeathers().stream().map(x->x.getName()).collect(Collectors.toSet()))
-            .containsExactlyInAnyOrder("CANBERRA", "BRISBANE");
+        testee.deleteById(anId);
 
+        result = testee.findAll();
+        assertThat(result).hasSize(1);
 
-        UserData rickData = result.stream().filter(x->x.getName().equals("rick")).findFirst().get();
-        assertThat(rickData.getUserProfiles()).isEmpty();
-
-        assertThat(result.stream().map(UserData::getUserId).collect(Collectors.toSet())).containsExactlyInAnyOrder(UUID.fromString("0970eba6-77be-4288-85b3-7db29f61897e"), UUID.fromString("784a84c6-d4ba-4ae1-a014-f6d1d4825af7"));
-    }
-
-    @Test
-    void findByUserId() {
-        UserData result = userDataRepository.findByUserId(UUID.fromString("0970eba6-77be-4288-85b3-7db29f61897e"));
-        assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo("dave");
     }
 
 }

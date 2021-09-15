@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ import java.util.Set;
 
 /**
  * A user can have multiple profiles.
- * This is a one to Many from User to Profile
+ * There is a one to Many from User to Profile
  */
 @Entity( name = "user_profile")
 @Builder
@@ -28,6 +29,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"nickname"})
+@ToString(exclude = "userData")
 public class UserProfile {
 
     @ManyToOne
@@ -48,5 +50,10 @@ public class UserProfile {
         joinColumns = @JoinColumn(name = "user_profile_id"),
         inverseJoinColumns = @JoinColumn(name = "city_name"))
     private Set<CityWeather> cityWeathers;
+
+    public void dismissUserData() {
+        this.userData.dismissUserProfileChild(this);
+        this.userData = null;
+    }
 
 }
