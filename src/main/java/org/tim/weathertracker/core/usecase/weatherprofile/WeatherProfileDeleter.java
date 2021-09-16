@@ -40,7 +40,6 @@ public class WeatherProfileDeleter {
         userData.getUserProfiles().remove(userProfileOpt.get());
 
         userProfileRepository.delete(userProfileOpt.get());
-//        userDataRepository.save(userData);
 
         return GeneralResponseDto.builder().status("deleted").build();
     }

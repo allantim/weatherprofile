@@ -25,8 +25,7 @@ public class UserSaver {
         if (StringUtils.isBlank(userData.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "UserData.email is not populated");
         }
-        // TODO Normally I would get the DB to do it randomly
-        // But I could not get it to work
+        // TODO Should get the DB to create the UUID it randomly
         userData.setUserId(UUID.randomUUID());
         userDataRepository.save(userData);
 
