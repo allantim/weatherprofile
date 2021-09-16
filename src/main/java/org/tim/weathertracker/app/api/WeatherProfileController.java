@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.tim.weathertracker.core.entities.UserProfile;
-import org.tim.weathertracker.core.entities.dto.WeatherProfileRequestDto;
+import org.tim.weathertracker.core.entities.dto.WeatherProfileCreateRequestDto;
 import org.tim.weathertracker.core.entities.dto.GeneralResponseDto;
-import org.tim.weathertracker.core.entities.dto.WeatherProfileResponseDto;
+import org.tim.weathertracker.core.entities.dto.WeatherProfileRetrieveResponseDto;
 import org.tim.weathertracker.core.usecase.weatherprofile.WeatherProfileDeleter;
 import org.tim.weathertracker.core.usecase.weatherprofile.WeatherProfileRetriever;
 import org.tim.weathertracker.core.usecase.weatherprofile.WeatherProfileUpserter;
@@ -37,17 +36,23 @@ public class WeatherProfileController {
     }
 
     @GetMapping("/user/{userId}/profile")
-    public Set<WeatherProfileResponseDto> retrieveUserWeatherProfile(@PathVariable("userId") UUID userId) {
+    public Set<WeatherProfileRetrieveResponseDto> retrieveUserWeatherProfile(@PathVariable("userId") UUID userId) {
         // TODO maybe I should be returning a DTO here, not the entity
         return weatherProfileRetriever.retrieve(userId);
     }
 
     @PostMapping("/user/{userId}/profile")
     public GeneralResponseDto createOrUpdateWeatherProfile(@PathVariable("userId") UUID userId,
-                                                           @RequestBody WeatherProfileRequestDto requestDto) {
+                                                           @RequestBody WeatherProfileCreateRequestDto requestDto) {
         return weatherProfileUpserter.upsert(userId, requestDto);
     }
 
+    /**
+     * TODO Not the best API. Should use profile ID, not nickname.
+     * @param userId
+     * @param nickname
+     * @return
+     */
     @DeleteMapping("/user/{userId}/profile/{nickname}")
     public GeneralResponseDto deleteWeatherProfileWithNickName(@PathVariable("userId") UUID userId,
                                                                @PathVariable("nickname") String nickname) {

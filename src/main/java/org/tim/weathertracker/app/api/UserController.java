@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tim.weathertracker.core.entities.UserData;
+import org.tim.weathertracker.core.entities.dto.CreateUserDataResponseDto;
 import org.tim.weathertracker.core.usecase.user.UserSaver;
 
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -23,8 +23,8 @@ public class UserController {
     }
 
     @PostMapping
-    public Map<String, Object> registerUser(@RequestBody UserData userData) {
+    public CreateUserDataResponseDto registerUser(@RequestBody UserData userData) {
         UUID userId = userSaver.save(userData);
-        return Map.of("userId", userId);
+        return CreateUserDataResponseDto.builder().userId(userId).build();
     }
 }

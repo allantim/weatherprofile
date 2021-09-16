@@ -4,8 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import org.tim.weathertracker.core.entities.UserData;
-import org.tim.weathertracker.core.entities.UserProfile;
-import org.tim.weathertracker.core.entities.dto.WeatherProfileResponseDto;
+import org.tim.weathertracker.core.entities.dto.WeatherProfileRetrieveResponseDto;
 import org.tim.weathertracker.core.repository.UserDataRepository;
 
 import java.util.Set;
@@ -23,7 +22,7 @@ public class WeatherProfileRetriever {
         this.weatherProfileAdaptor = weatherProfileAdaptor;
     }
 
-    public Set<WeatherProfileResponseDto> retrieve(UUID userId) {
+    public Set<WeatherProfileRetrieveResponseDto> retrieve(UUID userId) {
 
         UserData userData = userDataRepository.findByUserId(userId);
         if (userData == null) {

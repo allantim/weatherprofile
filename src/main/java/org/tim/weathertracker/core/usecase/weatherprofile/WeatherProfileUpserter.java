@@ -9,7 +9,7 @@ import org.tim.weathertracker.core.AppProperties;
 import org.tim.weathertracker.core.entities.CityWeather;
 import org.tim.weathertracker.core.entities.UserData;
 import org.tim.weathertracker.core.entities.UserProfile;
-import org.tim.weathertracker.core.entities.dto.WeatherProfileRequestDto;
+import org.tim.weathertracker.core.entities.dto.WeatherProfileCreateRequestDto;
 import org.tim.weathertracker.core.entities.dto.GeneralResponseDto;
 import org.tim.weathertracker.core.repository.CityWeatherRepository;
 import org.tim.weathertracker.core.repository.UserDataRepository;
@@ -37,7 +37,7 @@ public class WeatherProfileUpserter {
         this.appProperties = appProperties;
     }
 
-    public GeneralResponseDto upsert(UUID userId, WeatherProfileRequestDto requestDto) {
+    public GeneralResponseDto upsert(UUID userId, WeatherProfileCreateRequestDto requestDto) {
         if (StringUtils.isBlank(requestDto.getNickname())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nickname is not populated");
         }

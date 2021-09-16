@@ -6,7 +6,7 @@ import org.tim.weathertracker.core.AppProperties;
 
 @Component
 @Slf4j
-public class ScheduledWeatherRetriever implements Runnable{
+public class ScheduledWeatherRetriever implements Runnable {
 
     private final AppProperties appProperties;
     private final CityWeatherGetAndSave cityWeatherGetAndSave;

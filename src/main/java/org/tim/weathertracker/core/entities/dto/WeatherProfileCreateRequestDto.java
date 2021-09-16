@@ -1,17 +1,20 @@
 package org.tim.weathertracker.core.entities.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WeatherProfileResponseDto {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class WeatherProfileCreateRequestDto {
+
     private String nickname;
-    private List<CityWeatherResponseDto> cities;
+    private Set<String> cities;
 }
