@@ -52,7 +52,6 @@ public class UserProfile {
     private Set<CityWeather> cityWeathers;
 
     public void dismissUserData() {
-        this.userData.dismissUserProfileChild(this);
         this.userData = null;
     }
 

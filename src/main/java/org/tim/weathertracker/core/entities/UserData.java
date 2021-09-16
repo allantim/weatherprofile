@@ -11,7 +11,6 @@ import org.hibernate.annotations.Type;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,15 +39,13 @@ public class UserData {
     @Column(name="email")
     private String email;
 
-    @OneToMany(mappedBy="userData", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="userData", cascade = CascadeType.ALL)
     private Set<UserProfile> userProfiles;
 
     public void addUserProfile(UserProfile userProfile) {
+        // remove if it exists (nickname is used to identify duplicates)
+        this.userProfiles.remove(userProfile);
         this.userProfiles.add(userProfile);
         userProfile.setUserData(this);
-    }
-
-    public void dismissUserProfileChild(UserProfile userProfile) {
-        this.userProfiles.remove(userProfile);
     }
 }

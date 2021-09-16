@@ -17,6 +17,7 @@ import org.tim.weathertracker.core.repository.UserDataRepository;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -61,14 +62,15 @@ public class WeatherProfileUpserter {
         }
         // Find cities
         List<CityWeather> cityWeatherList = cityWeatherRepository.findAllById(new ArrayList<>(requestDto.getCities()));
+        Optional<UserProfile> existingProfile = userData.getUserProfiles().stream().filter(userProfile -> userProfile.getNickname().equals(requestDto.getNickname())).findFirst();
         userData.addUserProfile(
             UserProfile.builder()
+                .id(existingProfile.map(UserProfile::getId).orElse(null))
                 .cityWeathers(new HashSet<>(cityWeatherList))
                 .nickname(requestDto.getNickname())
                 .build()
         );
-        // TODO this is not the most efficient way to save
-        // UserProfileRepository saver would be better.
+        // TODO Saving at the top level and cascading dowm is not the most efficient way to save
         // This could end up with N+1 problem but no time to check sorry
         userDataRepository.save(userData);
 

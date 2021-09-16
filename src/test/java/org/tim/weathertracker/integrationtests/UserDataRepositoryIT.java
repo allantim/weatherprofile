@@ -119,18 +119,21 @@ class UserDataRepositoryIT {
             .email("d@d.com")
             .build();
 
+        UserProfile daveProfile1 = UserProfile.builder()
+            .nickname("HolidayList")
+            .userData(userData1)
+            .cityWeathers(Set.of(cityWeather1, cityWeather2))
+            .build();
+        UserProfile daveProfile2 = UserProfile.builder()
+            .nickname("OtherList")
+            .userData(userData1)
+            .cityWeathers(Set.of(cityWeather2, cityWeather3))
+            .build();
+
         userData1.setUserProfiles(
             Set.of(
-                UserProfile.builder()
-                    .nickname("HolidayList")
-                    .userData(userData1)
-                    .cityWeathers(Set.of(cityWeather1, cityWeather2))
-                    .build(),
-				UserProfile.builder()
-					.nickname("OtherList")
-					.userData(userData1)
-                    .cityWeathers(Set.of(cityWeather2, cityWeather3))
-					.build()
+                daveProfile1,
+                daveProfile2
             )
         );
 
@@ -149,12 +152,9 @@ class UserDataRepositoryIT {
     }
 
     @Test
-    void retrieveAll() {
-        List<UserData> result = userDataRepository.findAll();
-        assertThat(result).hasSize(2);
-        assertThat(result.stream().map(UserData::getName).collect(Collectors.toSet())).containsExactlyInAnyOrder("dave", "rick");
-
-        UserData daveData = result.stream().filter(x->x.getName().equals("dave")).findFirst().get();
+    void findByUserId_userProfilesAlsoRetrieved() {
+        UserData daveData = userDataRepository.findByUserId(UUID.fromString("0970eba6-77be-4288-85b3-7db29f61897e"));
+        assertThat(daveData.getName()).isEqualTo("dave");
         assertThat(daveData.getUserProfiles()).hasSize(2);
 
         UserProfile daveProfile1 = daveData.getUserProfiles().stream().filter(x->x.getNickname().equals("HolidayList")).findFirst().get();
@@ -165,18 +165,10 @@ class UserDataRepositoryIT {
         assertThat(daveProfile2.getCityWeathers().stream().map(x->x.getName()).collect(Collectors.toSet()))
             .containsExactlyInAnyOrder("CANBERRA", "BRISBANE");
 
-
-        UserData rickData = result.stream().filter(x->x.getName().equals("rick")).findFirst().get();
+        UserData rickData = userDataRepository.findByUserId(UUID.fromString("784a84c6-d4ba-4ae1-a014-f6d1d4825af7"));
+        assertThat(rickData.getName()).isEqualTo("rick");
         assertThat(rickData.getUserProfiles()).isEmpty();
 
-        assertThat(result.stream().map(UserData::getUserId).collect(Collectors.toSet())).containsExactlyInAnyOrder(UUID.fromString("0970eba6-77be-4288-85b3-7db29f61897e"), UUID.fromString("784a84c6-d4ba-4ae1-a014-f6d1d4825af7"));
-    }
-
-    @Test
-    void findByUserId() {
-        UserData result = userDataRepository.findByUserId(UUID.fromString("0970eba6-77be-4288-85b3-7db29f61897e"));
-        assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo("dave");
     }
 
 }

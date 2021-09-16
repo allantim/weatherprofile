@@ -131,7 +131,6 @@ class UserProfileRepositoryIT {
         userDataRepository.save(userData1);
     }
 
-    @Disabled
     @Test
     void retrieveAllThenDelete() {
         List<UserProfile> result = testee.findAll();

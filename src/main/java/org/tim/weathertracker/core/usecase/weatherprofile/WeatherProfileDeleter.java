@@ -9,6 +9,7 @@ import org.tim.weathertracker.core.entities.UserProfile;
 import org.tim.weathertracker.core.entities.dto.GeneralResponseDto;
 import org.tim.weathertracker.core.repository.CityWeatherRepository;
 import org.tim.weathertracker.core.repository.UserDataRepository;
+import org.tim.weathertracker.core.repository.UserProfileRepository;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -17,9 +18,12 @@ import java.util.UUID;
 public class WeatherProfileDeleter {
 
     private final UserDataRepository userDataRepository;
+    private final UserProfileRepository userProfileRepository;
 
-    public WeatherProfileDeleter(UserDataRepository userDataRepository) {
+    public WeatherProfileDeleter(UserDataRepository userDataRepository,
+                                 UserProfileRepository userProfileRepository) {
         this.userDataRepository = userDataRepository;
+        this.userProfileRepository = userProfileRepository;
     }
 
     public GeneralResponseDto delete(UUID userId, String nickname) {
@@ -35,10 +39,8 @@ public class WeatherProfileDeleter {
         }
         userData.getUserProfiles().remove(userProfileOpt.get());
 
-        // TODO this is not the most efficient way to save
-        // UserProfileRepository saver would be better.
-        // This could end up with N+1 problem but no time to check
-        userDataRepository.save(userData);
+        userProfileRepository.delete(userProfileOpt.get());
+//        userDataRepository.save(userData);
 
         return GeneralResponseDto.builder().status("deleted").build();
     }
