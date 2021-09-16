@@ -1,0 +1,53 @@
+### Create User
+
+POST {{baseUrl}}/api/v1/user
+Content-Type: application/json
+
+{
+    "name" : "tim1",
+    "email": "t@t.com"
+}
+
+> {%
+  client.global.set("userId", response.body.userId);
+%}
+
+###
+
+### Add profile
+
+POST {{baseUrl}}/api/v1/user/{{userId}}/profile
+Content-Type: application/json
+
+{
+  "nickname" : "HolidayProfile",
+  "cities": ["SYDNEY", "CANBERRA"]
+}
+###
+
+GET {{baseUrl}}/api/v1/user/{{userId}}/profile
+Content-Type: application/json
+
+###
+
+### Add another profile
+
+POST {{baseUrl}}/api/v1/user/{{userId}}/profile
+Content-Type: application/json
+
+{
+  "nickname" : "HolidayProfile2",
+  "cities": ["SYDNEY", "DARWIN", "CANBERRA"]
+}
+###
+
+### Modify another profile
+
+POST {{baseUrl}}/api/v1/user/{{userId}}/profile
+Content-Type: application/json
+
+{
+  "nickname" : "HolidayProfile2",
+  "cities": ["SYDNEY", "DARWIN", "CANBERRA", "PERTH"]
+}
+###

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.tim.weathertracker.core.entities.UserProfile;
 import org.tim.weathertracker.core.entities.dto.WeatherProfileRequestDto;
 import org.tim.weathertracker.core.entities.dto.GeneralResponseDto;
+import org.tim.weathertracker.core.entities.dto.WeatherProfileResponseDto;
 import org.tim.weathertracker.core.usecase.weatherprofile.WeatherProfileDeleter;
 import org.tim.weathertracker.core.usecase.weatherprofile.WeatherProfileRetriever;
 import org.tim.weathertracker.core.usecase.weatherprofile.WeatherProfileUpserter;
@@ -36,7 +37,7 @@ public class WeatherProfileController {
     }
 
     @GetMapping("/user/{userId}/profile")
-    public Set<UserProfile> retrieveUserWeatherProfile(@PathVariable("userId") UUID userId) {
+    public Set<WeatherProfileResponseDto> retrieveUserWeatherProfile(@PathVariable("userId") UUID userId) {
         // TODO maybe I should be returning a DTO here, not the entity
         return weatherProfileRetriever.retrieve(userId);
     }

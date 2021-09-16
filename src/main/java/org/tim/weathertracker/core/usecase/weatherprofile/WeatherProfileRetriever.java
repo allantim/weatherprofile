@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import org.tim.weathertracker.core.entities.UserData;
 import org.tim.weathertracker.core.entities.UserProfile;
+import org.tim.weathertracker.core.entities.dto.WeatherProfileResponseDto;
 import org.tim.weathertracker.core.repository.UserDataRepository;
 
 import java.util.Set;
@@ -14,18 +15,21 @@ import java.util.UUID;
 public class WeatherProfileRetriever {
 
     private final UserDataRepository userDataRepository;
+    private final WeatherProfileAdaptor weatherProfileAdaptor;
 
-    public WeatherProfileRetriever(UserDataRepository userDataRepository) {
+    public WeatherProfileRetriever(UserDataRepository userDataRepository,
+                                   WeatherProfileAdaptor weatherProfileAdaptor) {
         this.userDataRepository = userDataRepository;
+        this.weatherProfileAdaptor = weatherProfileAdaptor;
     }
 
-    public Set<UserProfile> retrieve(UUID userId) {
+    public Set<WeatherProfileResponseDto> retrieve(UUID userId) {
 
         UserData userData = userDataRepository.findByUserId(userId);
         if (userData == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("User with userID %s not found. Cannot delete", userId));
         }
 
-        return userData.getUserProfiles();
+        return weatherProfileAdaptor.adapt(userData.getUserProfiles());
     }
 }

@@ -28,7 +28,7 @@ public class JobConfiguration implements SchedulingConfigurer {
     public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
         PeriodicTrigger trigger = new PeriodicTrigger(appProperties.getRetrieveInterval(), SECONDS);
         trigger.setFixedRate(true);
-        trigger.setInitialDelay(appProperties.getRetrieveInterval() * 1000); // ms
+        trigger.setInitialDelay(appProperties.getRetrieveInterval());
         TriggerTask releaseTask = new TriggerTask(scheduledWeatherRetriever, trigger);
         scheduledTaskRegistrar.addTriggerTask(releaseTask);
     }

@@ -21,8 +21,9 @@ public class ScheduledWeatherRetriever implements Runnable{
 
     @Override
     public void run() {
+        // TODO look into Batch interface
         appProperties.getSupportedCities()
-            .parallelStream()
+            .stream()
             .forEach(
                 city -> {
                     try {
@@ -35,7 +36,7 @@ public class ScheduledWeatherRetriever implements Runnable{
 
     private void retrieveAndSaveNoExceptionHandling() {
         appProperties.getSupportedCities()
-            .parallelStream()
+            .stream()
             .forEach(cityWeatherGetAndSave::retrieveAndSave);
     }
 }

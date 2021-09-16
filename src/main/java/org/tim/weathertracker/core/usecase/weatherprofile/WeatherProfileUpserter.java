@@ -61,7 +61,7 @@ public class WeatherProfileUpserter {
         }
         // Find cities
         List<CityWeather> cityWeatherList = cityWeatherRepository.findAllById(new ArrayList<>(requestDto.getCities()));
-        userData.getUserProfiles().add(
+        userData.addUserProfile(
             UserProfile.builder()
                 .cityWeathers(new HashSet<>(cityWeatherList))
                 .nickname(requestDto.getNickname())
@@ -69,7 +69,7 @@ public class WeatherProfileUpserter {
         );
         // TODO this is not the most efficient way to save
         // UserProfileRepository saver would be better.
-        // This could end up with N+1 problem but no time to check
+        // This could end up with N+1 problem but no time to check sorry
         userDataRepository.save(userData);
 
         return GeneralResponseDto.builder().status("saved").build();

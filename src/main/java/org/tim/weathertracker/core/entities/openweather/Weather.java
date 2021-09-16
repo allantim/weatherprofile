@@ -1,4 +1,4 @@
-package org.tim.weathertracker.core.entities.dto;
+package org.tim.weathertracker.core.entities.openweather;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreateUseDataRequestDto {
-    private String name;
-    private String email;
+public class Weather {
+    private String main;
 }
