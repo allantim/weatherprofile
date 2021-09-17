@@ -1,12 +1,16 @@
-version: '2.4'
+version: '3.9'
 
 services:
   mysql_db:
     image: mysql:8.0
+    container_name: weatherdb
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: weatheruser
       MYSQL_PASSWORD: ABC
       MYSQL_DATABASE: weathertracker
     ports:
-      - "13306:3306"
+      - "3306:3306"
+networks:
+  default:
+    name: tim-net

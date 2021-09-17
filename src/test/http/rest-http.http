@@ -1,0 +1,94 @@
+### Create User
+
+POST {{baseUrl}}/api/v1/user
+Content-Type: application/json
+
+{
+    "name" : "tim1",
+    "email": "t@t.com"
+}
+
+> {%
+  client.global.set("userId", response.body.userId);
+%}
+
+###
+
+### Get Profile of last created user
+
+GET {{baseUrl}}/api/v1/user/{{userId}}/profile
+Content-Type: application/json
+
+###
+
+
+### Get Profile of unknown user
+
+GET {{baseUrl}}/api/v1/user/733cad55-4c3e-4daa-923a-ce4a5a1fcf7f/profile
+Content-Type: application/json
+
+> {%
+ client.test("Not found", function(){
+   client.assert(response.status === 404, "Response status is not 404.")
+ });
+ %}
+
+###
+
+### Add profile
+
+POST {{baseUrl}}/api/v1/user/{{userId}}/profile
+Content-Type: application/json
+
+{
+  "nickname" : "HolidayProfile",
+  "cities": ["SYDNEY", "CANBERRA"]
+}
+###
+
+### Modify HolidayProfile, remove a city
+
+POST {{baseUrl}}/api/v1/user/{{userId}}/profile
+Content-Type: application/json
+
+{
+  "nickname" : "HolidayProfile",
+  "cities": ["SYDNEY"]
+}
+
+### Add another profile
+
+POST {{baseUrl}}/api/v1/user/{{userId}}/profile
+Content-Type: application/json
+
+{
+  "nickname" : "HolidayProfile2",
+  "cities": ["SYDNEY", "DARWIN", "CANBERRA"]
+}
+###
+
+### Modify HolidayProfile2 add city
+
+POST {{baseUrl}}/api/v1/user/{{userId}}/profile
+Content-Type: application/json
+
+{
+  "nickname" : "HolidayProfile2",
+  "cities": ["SYDNEY", "DARWIN", "CANBERRA", "PERTH"]
+}
+###
+
+### Delete HolidayProfile
+
+DELETE {{baseUrl}}/api/v1/user/{{userId}}/profile/HolidayProfile
+
+
+### Delete Unknown Profile
+
+DELETE {{baseUrl}}/api/v1/user/{{userId}}/profile/unknownProfile
+
+> {%
+ client.test("Not found", function(){
+   client.assert(response.status === 404, "Response status is not 404.")
+ });
+ %}

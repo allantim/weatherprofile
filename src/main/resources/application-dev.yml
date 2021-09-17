@@ -1,15 +1,16 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+    url: jdbc:mysql://localhost:3306/weathertracker
+    username: weatheruser
+    password: ABC
 server:
   port: 8080
   servlet:
     context-path: "/weather"
-
 logging:
   level:
-    root: ERROR
+    root: INFO
     org.apache.http: WARN
     org.testcontainers: INFO
     com.github.dockerjava: WARN
@@ -17,6 +18,6 @@ logging:
 
 app:
   supported-cities: SYDNEY,BRISBANE,ADELAIDE,CANBERRA,PERTH,DARWIN
-  retrieve-interval: 900
+  retrieve-interval: 60
   open-weather-api-key: 2a5fb3ca31cc264d05fa69eeadd72ef8
   open-weather-url: https://api.openweathermap.org/data/2.5/weather

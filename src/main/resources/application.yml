@@ -4,10 +4,18 @@ spring:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
-
+server:
+  port: 8080
+  servlet:
+    context-path: "/weather"
 logging:
   level:
-    root: ERROR
+    root: INFO
     org.apache.http: WARN
-    org.testcontainers: INFO
-    com.github.dockerjava: WARN
+
+
+app:
+  supported-cities: ${SUPPORTED_CITIES:SYDNEY,BRISBANE,ADELAIDE,CANBERRA,PERTH,DARWIN}
+  retrieve-interval: ${RETRIEVE_INTERVAL:900}
+  open-weather-api-key: ${OPEN_WEATHER_API_KEY}
+  open-weather-url: ${OPEN_WEATHER_API_URL}
