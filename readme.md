@@ -1,34 +1,40 @@
 # Weather Tracker
 
-## Prerequisites for Coding
+## Prerequisites for Coding or running in Intellij
 
 - Java 11
 - Maven 3.6.0 (or above)
 - IntelliJ IDEA with Lombok IDEA Plugin
+- Docker installed locally
 
 ## Running in Docker containers
-
 You will need 
 - Java 11
 - Maven 3.6.0 (or above)
+- Docker installed locally
 
 ### 1. Clone repo.
 
+### 2. Do a maven build
+Run the following
+```bash
+mvn clean verify
+```
 
-### 2. Docker build the WeatherTracker
+### 3. Docker build the WeatherTracker
 The following will create an image called tim/weathertracker with Tag "latest".
 
 ```bash
 make app-build
 ```
 
-### 3. Start MySql in a container.
+### 4. Start MySql in a container.
 This will have a network called tim-net
 ```bash
 make db-up
 ```
 
-### 4. Run the Dockerised WeatherTracker
+### 5. Run the Dockerised WeatherTracker
 This will connect to tim-net. Note please wait 30+ seconds for MySql to start.
 ```bash
 make app-run
@@ -57,11 +63,11 @@ You will see that in the logs the server should be started with the OpenWeather 
 
 
 
-### 5. Run Tests in src/test/http/rest-http.http
+### 6. Run Tests in src/test/http/rest-http.http
 You can either run these in Intellij by hitting the play button, or copy into Postman.
 
 
-### 6. Cleanup
+### 7. Cleanup
 
 Destroy the weathertracker container
 ```bash
@@ -81,7 +87,7 @@ Start database.
 ```bash
 make db-up
 ```
-Run WeatherTrackerApplication with a profile of dev.
+Run WeatherTrackerApplication with a Spring profile of dev.
 
 Run the tests in : src/test/http/rest-http.http
 As per instructions above.
@@ -90,16 +96,16 @@ Cleanup DB as per above.
 
 
 ## Design Assumptions 
-1. This app is heavy read, light on writes
+1. This app is heavy on reads, light on writes
 2. It is OK for data to be stale for the customer, eventual consistency works fine.
 
 ## TODO - SORRY RAN OUT OF TIME
-1. Auditing
+1. Auditing. I just added created_at and updated_at to be automatically updated by MySQL.
 2. Look into db transactions to ensure all committed (or rolled back) in a transaction
-3. Look into caching. This app is heavy read, light on writes. 
+3. Look into caching. This app is heavy read, light on writes. So CityWeather can be cached, no need to hit the DB all the time.
 
 ## Future changes to look into
 1. Reactive, although schedulers will work differently.
-2. Separate threadpool for the Scheduled Weather loader. 
-3. This is not horizontally scalable because each service loads weather into same DB. Maybe separate Springboot app so that we can scale this (CQRS).
+2. Separate thread pool for the Scheduled Weather loader. 
+3. This is not horizontally scalable because each service loads weather into same DB. Maybe City weather loading can be a separate Springboot app or serverless lambda so that we can scale this.
 4. Materialized views, since this data is read heavy.

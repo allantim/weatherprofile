@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS weathertracker.city_weather (
     `humidity` INTEGER NOT NULL,
     `wind_speed` DECIMAL(6,2) NOT NULL,
     `weather_main` VARCHAR(80),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp default now() on update now()
 )  ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS weathertracker.profile_city (
@@ -16,6 +17,7 @@ CREATE TABLE IF NOT EXISTS weathertracker.profile_city (
     user_profile_id BIGINT NOT NULL,
     city_name VARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp default now() on update now(),
     CONSTRAINT unique_user_city UNIQUE (user_profile_id, city_name),
     CONSTRAINT fk_user_profile FOREIGN KEY (user_profile_id) REFERENCES user_profile(id),
     CONSTRAINT fk_city_weather FOREIGN KEY (city_name) REFERENCES city_weather(`name`)
